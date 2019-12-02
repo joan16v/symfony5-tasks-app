@@ -43,6 +43,11 @@ class User
     protected $name;
 
     /**
+     * @ORM\Column(name="admin", type="boolean", nullable=true)
+     */
+    protected $admin;
+
+    /**
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      */
     protected $createdAt;
@@ -119,5 +124,24 @@ class User
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param boolean $admin
+     * @return User
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
     }
 }
