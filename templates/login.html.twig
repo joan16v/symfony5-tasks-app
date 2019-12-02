@@ -8,27 +8,37 @@
     </head>
 
     <body>
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-warning flash-{{ label }}">
-                    {{ message }}
+        <header>
+            <div class="navbar navbar-dark bg-dark shadow-sm">
+                <div class="container d-flex justify-content-between">
+                    <a href="{{ path('app_index') }}" class="navbar-brand d-flex align-items-center">
+                        <strong>Tareas</strong>
+                    </a>
                 </div>
-            {% endfor %}
-        {% endfor %}
+            </div>
+        </header>
 
         <div class="container">
-            <div class="row justify-content-center align-items-center" style="height:100vh">
-                <div class="col-4">
+            <div class="row justify-content-center align-items-center pt-4">
+                <div class="col-md-4 col-xs-8">
                     <div class="card">
                         <div class="card-body">
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-warning flash-{{ label }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
                             <form action="" autocomplete="off" method="POST">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="login" />
+                                    <input type="text" class="form-control" name="login" placeholder="login" autocomplete="off" autofocus />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="password" />
+                                    <input type="password" class="form-control" name="password" placeholder="password"  autocomplete="off" />
                                 </div>
-                                <button type="submit" id="sendlogin" class="btn btn-primary">login</button>
+                                <button type="submit" id="sendlogin" class="btn btn-primary">Enviar</button>
                             </form>
                         </div>
                     </div>
