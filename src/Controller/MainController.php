@@ -21,6 +21,11 @@ class MainController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        dump('fdfdf');exit;
+        return $this->render(
+            'login.html.twig',
+            [
+                'request' => $request,
+            ]
+        );
     }
 }
