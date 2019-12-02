@@ -31,6 +31,7 @@ class MainController extends AbstractController
         $currentWeek = $this->getCurrentWeek();
         $currentWeekValue = $this->getCurrentWeekValue();
         $week = !empty($request->get('week')) ? $request->get('week') : $currentWeekValue;
+        $tasksManager = $this->getDoctrine()->getManager()->getRepository('App:Tasks');
 
         if (empty($sessionUser)) {
             return $this->redirectToRoute('app_login');
@@ -42,7 +43,15 @@ class MainController extends AbstractController
                 'request' => $request,
                 'user' => $sessionUser,
                 'year' => $year,
+                'currentYear' => $currentYear,
                 'week' => $week,
+                'tasks' => $tasksManager->findBy(
+                    [
+                        'user' => $sessionUser,
+                        'week' => $week,
+                        'year' => $year,
+                    ]
+                ),
             ]
         );
     }

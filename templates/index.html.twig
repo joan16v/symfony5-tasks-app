@@ -2,9 +2,21 @@
     <head>
         <title>Tareas</title>
 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <meta name="viewport" content="initial-scale=1">
+        <link href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+        <script src="//code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
     </head>
 
     <body>
@@ -37,7 +49,7 @@
                     <input type="hidden" id="year" value="{{ year }}" />
                     <p>
                         <select class="form-control" id="yearSelector" onchange="selectYear(this.value)">
-                            {% for i in range(year - 5, year + 5) %}
+                            {% for i in range(currentYear - 5, currentYear + 5) %}
                                 <option value="{{ i }}" {% if year == i %}selected="selected"{% endif %}>{{ i }}</option>
                             {% endfor %}
                         </select>
@@ -45,7 +57,7 @@
                     <p>
                         <select class="form-control" id="weekSelector" onchange="selectWeek(this.value)">
                             {% for i in range(1, 53) %}
-                                <option value="{{ i }}" {% if week == i %}selected="selected"{% endif %}><?php echo getWeekValues($i, $year); ?></option>
+                                <option value="{{ i }}" {% if week == i %}selected="selected"{% endif %}>{{ i|week_values(year) }}</option>
                             {% endfor %}
                         </select>
                     </p>
@@ -75,23 +87,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($arrayTareas as $row) { ?>
+                                    {% for task in tasks %}
                                         <tr>
-                                            <td><?php echo $row['day']; ?></td>
-                                            <td><?php echo $row['gestic']; ?></td>
-                                            <td><?php echo $row['description_gestic']; ?></td>
-                                            <td><?php echo $row['description']; ?></td>
-                                            <td><?php echo $row['tarea']; ?></td>
-                                            <td><?php echo $row['hour_type']; ?></td>
-                                            <td><?php echo $row['hours']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['percent']; ?></td>
+                                            <td>{{ task.day }}</td>
+                                            <td>{{ task.gestic }}</td>
+                                            <td>{{ task.descriptionGestic }}</td>
+                                            <td>{{ task.description }}</td>
+                                            <td>{{ task.task }}</td>
+                                            <td>{{ task.hourType }}</td>
+                                            <td>{{ task.hours }}</td>
+                                            <td>{{ task.status }}</td>
+                                            <td>{{ task.percent }}</td>
                                             <td>
-                                                <a href="javascript:confirmDelete(<?php echo $row['id']; ?>);"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                <a href="javascript:editTarea(<?php echo $row['id']; ?>);"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                <a href="javascript:confirmDelete({{ task.id }});"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                <a href="javascript:editTarea({{ task.id }});"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
-                                    <?php } ?>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -236,10 +248,10 @@
                 window.location = 'index.php?action=edit_tarea&day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&tarea_id=' + $('#tarea_id').val() + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();
             }
             function selectYear(year) {
-                window.location = 'tareas.php?user=<?php echo $userId; ?>&year=' + $('#yearSelector').val() + '&week=1';
+                window.location = '{{ path("app_index") }}?year=' + year + '&week=1';
             }
-            function selectWeek(year) {
-                window.location = 'tareas.php?user=<?php echo $userId; ?>&year=' + $('#yearSelector').val() + '&week=' + $('#weekSelector').val();
+            function selectWeek(week) {
+                window.location = '{{ path("app_index") }}?year=' + $('#yearSelector').val() + '&week=' + week;
             }
             function confirmDelete(id) {
                 if (confirm('Confirma el borrado.')) {

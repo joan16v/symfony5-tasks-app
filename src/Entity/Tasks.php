@@ -20,7 +20,7 @@ class Tasks
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="user", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="task", cascade={"persist"})
      */
     private $user;
 
