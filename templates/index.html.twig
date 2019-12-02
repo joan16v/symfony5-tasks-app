@@ -91,7 +91,7 @@
                                         <tr>
                                             <td>{{ task.day }}</td>
                                             <td>{{ task.gestic }}</td>
-                                            <td>{{ task.descriptionGestic }}</td>
+                                            <td>{{ task.gesticDescription }}</td>
                                             <td>{{ task.description }}</td>
                                             <td>{{ task.task }}</td>
                                             <td>{{ task.hourType }}</td>
@@ -242,7 +242,7 @@
                 $('#modalTarea').modal('show');
             }
             function saveTarea() {
-                window.location = 'index.php?action=insert_tarea&day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&id_user=<?php echo $userId; ?>' + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();
+                window.location = '{{ path("app_save_task") }}?day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&id_user=<?php echo $userId; ?>' + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();
             };
             function saveEditTarea() {
                 window.location = 'index.php?action=edit_tarea&day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&tarea_id=' + $('#tarea_id').val() + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();

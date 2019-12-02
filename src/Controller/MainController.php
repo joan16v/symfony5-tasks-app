@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use App\Entity\User;
+use App\Entity\Tasks;
 
 /**
  * @Route("/")
@@ -97,6 +98,46 @@ class MainController extends AbstractController
     {
         $session = $this->get('session');
         $session->remove('user');
+
+        return $this->redirectToRoute('app_index');
+    }
+
+    /**
+     * @Route("/guardar-tarea", methods={"GET"}, name="app_save_task")
+     */
+    public function addTask(Request $request): Response
+    {
+        $session = $this->get('session');
+        $sessionUser = $session->get('user');
+        $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
+        $manager = $this->getDoctrine()->getManager();
+
+        if (empty($sessionUser)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $user = $userManager->findOneBy(
+            ['id' => $sessionUser->getId()]
+        );
+
+        $task = new Tasks();
+        $task->setUser($user);
+        $task->setDay($request->get('day'));
+        $task->setGestic($request->get('gestic'));
+        $task->setGesticDescription($request->get('gestic_description'));
+        $task->setDescription($request->get('description'));
+        $task->setTask($request->get('tarea'));
+        $task->setHourType($request->get('hour_type'));
+        $task->setHours($request->get('hours'));
+        $task->setStatus($request->get('status'));
+        $task->setPercent($request->get('percent'));
+        $task->setWeek($request->get('week'));
+        $task->setYear($request->get('year'));
+
+        $manager->persist($task);
+        $manager->flush();
+
+        $this->addFlash('notice', 'Tarea insertada');
 
         return $this->redirectToRoute('app_index');
     }

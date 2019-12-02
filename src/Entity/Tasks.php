@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\User;
 
 /**
  * @ORM\Table(name="tasks_weeks")})
@@ -307,5 +308,24 @@ class Tasks
     public function getPercent()
     {
         return $this->percent;
+    }
+
+    /**
+     * @param User $user
+     * @return Tasks
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
