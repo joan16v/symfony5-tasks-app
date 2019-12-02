@@ -1,0 +1,21 @@
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between col-sm-6 col-10">
+            <a href="{{ path('app_index') }}" class="navbar-brand d-flex align-items-center">
+                <strong>Tareas</strong>
+            </a>
+        </div>
+
+        <div class="float-right col-2 col-sm-6 text-right">
+            {% if user.admin == true %}
+                <a class="text-white" href="{{ path('app_admin') }}" title="Backoffice">
+                    <i class="fas fa-users-cog"></i>
+                </a>
+            {% endif %}
+
+            <a class="text-white" href="{{ path('app_logout') }}" title="Desconectar">
+                <i class="fas fa-power-off"></i>
+            </a>
+        </div>
+    </div>
+</header>
