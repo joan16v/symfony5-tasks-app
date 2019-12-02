@@ -245,7 +245,7 @@
                 window.location = '{{ path("app_save_task") }}?day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&id_user=<?php echo $userId; ?>' + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();
             };
             function saveEditTarea() {
-                window.location = 'index.php?action=edit_tarea&day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&tarea_id=' + $('#tarea_id').val() + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();
+                window.location = '{{ path("app_edit_task") }}?day=' + $('#day').val() + '&gestic=' + $('#gestic').val() + '&gestic_description=' + $('#gestic_description').val() + '&description=' + $('#description').val() + '&tarea=' + $('#tarea').val() + '&hour_type=' + $('#hour_type').val() + '&hours=' + $('#hours').val() + '&status=' + $('#status').val() + '&percent=' + $('#percent').val() + '&id=' + $('#tarea_id').val() + '&week=' + $('#weekSelector').val() + '&year=' + $('#year').val();
             }
             function selectYear(year) {
                 window.location = '{{ path("app_index") }}?year=' + year + '&week=1';
@@ -255,13 +255,13 @@
             }
             function confirmDelete(id) {
                 if (confirm('Confirma el borrado.')) {
-                    window.location = 'index.php?action=delete_tarea&tarea=' + id;
+                    window.location = '{{ path("app_delete_task") }}?id=' + id;
                 }
             }
             function editTarea(id) {
                 $.ajax({
-                    method: 'POST',
-                    url: 'index.php?action=get_tarea',
+                    method: 'GET',
+                    url: '{{ path("app_get_task") }}',
                     data: {
                         'id': id
                     },

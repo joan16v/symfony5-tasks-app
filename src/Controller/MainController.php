@@ -111,6 +111,8 @@ class MainController extends AbstractController
         $sessionUser = $session->get('user');
         $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
         $manager = $this->getDoctrine()->getManager();
+        $week = $request->get('week');
+        $year = $request->get('year');
 
         if (empty($sessionUser)) {
             return $this->redirectToRoute('app_login');
@@ -131,15 +133,135 @@ class MainController extends AbstractController
         $task->setHours($request->get('hours'));
         $task->setStatus($request->get('status'));
         $task->setPercent($request->get('percent'));
-        $task->setWeek($request->get('week'));
-        $task->setYear($request->get('year'));
+        $task->setWeek($week);
+        $task->setYear($year);
 
         $manager->persist($task);
         $manager->flush();
 
         $this->addFlash('notice', 'Tarea insertada');
 
-        return $this->redirectToRoute('app_index');
+        return $this->redirectToRoute(
+            'app_index',
+            [
+                'week' => $week,
+                'year' => $year,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/obtener-tarea", methods={"GET", "POST"}, name="app_get_task")
+     */
+    public function getTask(Request $request): Response
+    {
+        $session = $this->get('session');
+        $sessionUser = $session->get('user');
+        $tasksManager = $this->getDoctrine()->getManager()->getRepository('App:Tasks');
+
+        if (empty($sessionUser)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $task = $tasksManager->findOneBy(
+            [
+                'id' => $request->get('id'),
+            ]
+        );
+
+        $taskArray = [
+            'id' => $task->getId(),
+            'day' => $task->getDay(),
+            'description' => $task->getDescription(),
+            'description_gestic' => $task->getGesticDescription(),
+            'gestic' => $task->getGestic(),
+            'hour_type' => $task->getHourType(),
+            'hours' => $task->getHours(),
+            'percent' => $task->getPercent(),
+            'status' => $task->getStatus(),
+            'tarea' => $task->getTask(),
+        ];
+
+        return new Response(json_encode($taskArray, true));
+    }
+
+    /**
+     * @Route("/editar-tarea", methods={"GET"}, name="app_edit_task")
+     */
+    public function editTask(Request $request): Response
+    {
+        $session = $this->get('session');
+        $sessionUser = $session->get('user');
+        $manager = $this->getDoctrine()->getManager();
+        $tasksManager = $this->getDoctrine()->getManager()->getRepository('App:Tasks');
+
+        if (empty($sessionUser)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $task = $tasksManager->findOneBy(
+            [
+                'id' => $request->get('id'),
+            ]
+        );
+
+        $task->setDay($request->get('day'));
+        $task->setGestic($request->get('gestic'));
+        $task->setGesticDescription($request->get('gestic_description'));
+        $task->setDescription($request->get('description'));
+        $task->setTask($request->get('tarea'));
+        $task->setHourType($request->get('hour_type'));
+        $task->setHours($request->get('hours'));
+        $task->setStatus($request->get('status'));
+        $task->setPercent($request->get('percent'));
+        $task->setWeek($request->get('week'));
+        $task->setYear($request->get('year'));
+
+        $manager->persist($task);
+        $manager->flush();
+
+        $this->addFlash('notice', 'Tarea editada');
+
+        return $this->redirectToRoute(
+            'app_index',
+            [
+                'week' => $request->get('week'),
+                'year' => $request->get('year'),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/borrar-tarea", methods={"GET", "POST"}, name="app_delete_task")
+     */
+    public function deleteTask(Request $request): Response
+    {
+        $sessionUser = $this->get('session')->get('user');
+        $manager = $this->getDoctrine()->getManager();
+        $tasksManager = $this->getDoctrine()->getManager()->getRepository('App:Tasks');
+
+        if (empty($sessionUser)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $task = $tasksManager->findOneBy(
+            [
+                'id' => $request->get('id'),
+            ]
+        );
+
+        $manager->remove($task);
+        $manager->flush();
+
+        $this->addFlash('notice', 'Tarea borrada');
+
+        return $this->redirectToRoute(
+            'app_index',
+            [
+                'week' => $request->get('week'),
+                'year' => $request->get('year'),
+            ]
+        );
     }
 
     private function getCurrentWeekValue()
