@@ -22,6 +22,12 @@ class User
     protected $id;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $task;
+
+    /**
      * @ORM\Column(name="login", type="string", length=255, nullable=false)
      */
     protected $login;
@@ -47,6 +53,7 @@ class User
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->task = new ArrayCollection();
     }
 
     /**

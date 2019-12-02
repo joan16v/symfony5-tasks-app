@@ -20,6 +20,11 @@ class Tasks
     protected $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="user", cascade={"persist"})
+     */
+    private $user;
+
+    /**
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      */
     protected $createdAt;
