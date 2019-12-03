@@ -27,6 +27,7 @@ class AdminController extends AbstractController
     {
         $session = $this->get('session');
         $sessionUser = $session->get('user');
+        $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
 
         if (empty($sessionUser)) {
             return $this->redirectToRoute('app_login');
@@ -41,6 +42,7 @@ class AdminController extends AbstractController
             [
                 'request' => $request,
                 'user' => $sessionUser,
+                'users' => $userManager->findAll(),
             ]
         );
     }
