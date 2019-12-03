@@ -8,7 +8,7 @@ use Twig\TwigFilter;
 class AppExtension extends AbstractExtension
 {
     /**
-     * @return TwigFilter
+     * @return array
      */
     public function getFilters()
     {

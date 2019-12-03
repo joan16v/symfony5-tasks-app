@@ -59,7 +59,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% set total = 0 %}
                                     {% for task in tasks %}
+                                        {% set total = total + task.hours %}
                                         <tr>
                                             <td>
                                                 <span class="d-none">{{ task.day|day_order }}</span>
@@ -80,6 +82,20 @@
                                         </tr>
                                     {% endfor %}
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>TOTAL</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ total }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
