@@ -22,6 +22,8 @@ class MainController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET"}, name="app_index")
+     * @param Request $request
+     * @return Response
      */
     public function index(Request $request): Response
     {
@@ -59,6 +61,8 @@ class MainController extends AbstractController
 
     /**
      * @Route("/login", methods={"GET", "POST"}, name="app_login")
+     * @param Request $request
+     * @return Response
      */
     public function login(Request $request): Response
     {
@@ -93,6 +97,8 @@ class MainController extends AbstractController
 
     /**
      * @Route("/logout", methods={"GET", "POST"}, name="app_logout")
+     * @param Request $request
+     * @return Response
      */
     public function logout(Request $request): Response
     {
@@ -104,6 +110,8 @@ class MainController extends AbstractController
 
     /**
      * @Route("/guardar-tarea", methods={"GET"}, name="app_save_task")
+     * @param Request $request
+     * @return Response
      */
     public function addTask(Request $request): Response
     {
@@ -152,6 +160,8 @@ class MainController extends AbstractController
 
     /**
      * @Route("/obtener-tarea", methods={"GET", "POST"}, name="app_get_task")
+     * @param Request $request
+     * @return Response
      */
     public function getTask(Request $request): Response
     {
@@ -187,6 +197,8 @@ class MainController extends AbstractController
 
     /**
      * @Route("/editar-tarea", methods={"GET"}, name="app_edit_task")
+     * @param Request $request
+     * @return Response
      */
     public function editTask(Request $request): Response
     {
@@ -233,6 +245,8 @@ class MainController extends AbstractController
 
     /**
      * @Route("/borrar-tarea", methods={"GET", "POST"}, name="app_delete_task")
+     * @param Request $request
+     * @return Response
      */
     public function deleteTask(Request $request): Response
     {
@@ -264,6 +278,9 @@ class MainController extends AbstractController
         );
     }
 
+    /**
+     * @return string
+     */
     private function getCurrentWeekValue()
     {
         $date = new \DateTime();
@@ -271,6 +288,9 @@ class MainController extends AbstractController
         return $date->format("W");
     }
 
+    /**
+     * @return string
+     */
     private function getCurrentWeek()
     {
         $dtmin = new \DateTime("last sunday");
