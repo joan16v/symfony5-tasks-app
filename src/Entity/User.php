@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class User
 {
-    const DEFAULT_PASSWORD = 'aQuLiP56##';
+    const DEFAULT_PASSWORD = 'aQuLiP56';
 
     /**
      * @ORM\Id

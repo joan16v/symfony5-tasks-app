@@ -77,7 +77,7 @@ class AdminController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $user = new User();
             $user->setLogin($login);
-            $user->setPassword(md5($password));
+            $user->setPassword($password);
             $user->setName($name);
             $user->setAdmin($admin);
 
