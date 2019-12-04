@@ -22,28 +22,63 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET"}, name="app_admin")
+     * @param Request $request
+     * @return Response
      */
     public function index(Request $request): Response
     {
-        $session = $this->get('session');
-        $sessionUser = $session->get('user');
-        $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
-
-        if (empty($sessionUser)) {
-            return $this->redirectToRoute('app_login');
-        }
-
-        if (!$sessionUser->getAdmin()) {
+        if (!$this->securityCheck()) {
             return $this->redirectToRoute('app_index');
         }
+
+        $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
 
         return $this->render(
             'admin.html.twig',
             [
                 'request' => $request,
-                'user' => $sessionUser,
+                'user' => $this->get('session')->get('user'),
                 'users' => $userManager->findAll(),
             ]
         );
+    }
+
+    /**
+     * @Route("/crear-usuario", methods={"GET"}, name="app_admin_create_user")
+     * @param Request $request
+     * @return Response
+     */
+    public function createUser(Request $request): Response
+    {
+        if (!$this->securityCheck()) {
+            return $this->redirectToRoute('app_index');
+        }
+
+        return $this->render(
+            'createUser.html.twig',
+            [
+                'request' => $request,
+                'user' => $this->get('session')->get('user'),
+            ]
+        );
+    }
+
+    /**
+     * @return boolean
+     */
+    private function securityCheck()
+    {
+        $session = $this->get('session');
+        $sessionUser = $session->get('user');
+
+        if (empty($sessionUser)) {
+            return false;
+        }
+
+        if (!$sessionUser->getAdmin()) {
+            return false;
+        }
+
+        return true;
     }
 }

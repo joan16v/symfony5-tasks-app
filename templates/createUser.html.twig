@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main role="main">
+        <section class="jumbotron text-center">
+            <div class="container">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning flash-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                <h1 class="jumbotron-heading">Crear Usuario</h1>
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="table-responsive-xl">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
