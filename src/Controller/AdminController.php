@@ -99,6 +99,55 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/editar-usuario/{id}", methods={"GET", "POST"}, name="app_admin_edit_user")
+     * @param Request $request
+     * @return Response
+     */
+    public function editUser(Request $request, $id): Response
+    {
+        if (!$this->securityCheck()) {
+            return $this->redirectToRoute('app_index');
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
+        $userToEdit = $userManager->findOneById($id);
+
+        if ($request->isMethod('POST')) {
+            $password = trim($request->get('password'));
+            $name = trim($request->get('name'));
+            $admin = false;
+
+            if ($request->get('admin') == 'on') {
+                $admin = true;
+            }
+
+            if (!empty($password)) {
+                $userToEdit->setPassword($password);
+            }
+
+            $userToEdit->setName($name);
+            $userToEdit->setAdmin($admin);
+
+            $manager->persist($userToEdit);
+            $manager->flush();
+
+            $this->addFlash('notice', 'Usuario modificado.');
+
+            return $this->redirectToRoute('app_admin');
+        }
+
+        return $this->render(
+            'createUser.html.twig',
+            [
+                'request' => $request,
+                'user' => $this->get('session')->get('user'),
+                'userToEdit' => $userToEdit,
+            ]
+        );
+    }
+
+    /**
      * @return boolean
      */
     private function securityCheck()

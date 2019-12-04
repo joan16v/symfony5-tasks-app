@@ -21,28 +21,42 @@
                 <div class="row">
                     <div class="table-responsive-xl">
                         <form action="" method="POST">
+                            {% if userToEdit is defined %}
+                                <input type="hidden" name="id" value="{{ userToEdit.id }}" />
+                            {% endif %}
+
                             <div class="form-group">
                                 <label for="login">Login</label>
-                                <input type="text" class="form-control" id="login" name="login" placeholder="Login" autocomplete="off">
+                                <input type="text" class="form-control" id="login" name="login" placeholder="Login" autocomplete="off" {% if userToEdit is defined %}value="{{ userToEdit.login }}" readonly{% endif %} />
                                 <small id="loginHelp" class="form-text text-muted">En minusculas, sin espacios, ni caracteres raros.</small>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                <small id="passwordHelp" class="form-text text-muted">Dejar en blanco para poner el password por defecto.</small>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                                {% if userToEdit is defined %}
+                                    <small id="passwordHelp" class="form-text text-muted">Dejar en blanco para dejar sin cambiar el password.</small>
+                                {% else %}
+                                    <small id="passwordHelp" class="form-text text-muted">Dejar en blanco para poner el password por defecto.</small>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="name">Nombre</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Nombre">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" {% if userToEdit is defined %}value="{{ userToEdit.name }}"{% endif %} />
                                 <small id="nameHelp" class="form-text text-muted">El nombre completo.</small>
                             </div>
                             <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="admin" name="admin">
+                                <input type="checkbox" class="form-check-input" id="admin" name="admin" {% if (userToEdit is defined) and (userToEdit.admin == true) %}checked{% endif %} />
                                 <label class="form-check-label" for="admin">ADMIN</label>
                                 <small id="adminHelp" class="form-text text-muted">Ojo, un admin podra crear usuarios y ver todos los informes.</small>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Crear usuario</button>
+                            <button type="submit" class="btn btn-primary">
+                                {% if userToEdit is defined %}
+                                    Modificar usuario
+                                {% else %}
+                                    Crear usuario
+                                {% endif %}
+                            </button>
                             <button type="button" class="btn btn-secondary" onclick="window.location='{{ path("app_admin") }}'">Volver</button>
                         </form>
                     </div>

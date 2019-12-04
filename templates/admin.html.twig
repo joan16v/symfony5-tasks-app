@@ -38,7 +38,7 @@
                                         <td>{{ row.login }}</td>
                                         <td>{{ row.name }}</td>
                                         <td>
-                                            <a href=""><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                            <a href="{{ path("app_admin_edit_user", {id: row.id}) }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                 {% endfor %}
