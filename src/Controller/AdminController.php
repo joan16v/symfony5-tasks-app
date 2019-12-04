@@ -44,7 +44,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/crear-usuario", methods={"GET"}, name="app_admin_create_user")
+     * @Route("/crear-usuario", methods={"GET", "POST"}, name="app_admin_create_user")
      * @param Request $request
      * @return Response
      */
@@ -52,6 +52,41 @@ class AdminController extends AbstractController
     {
         if (!$this->securityCheck()) {
             return $this->redirectToRoute('app_index');
+        }
+
+        if ($request->isMethod('POST')) {
+            $login = trim($request->get('login'));
+            $password = trim($request->get('password'));
+            $name = trim($request->get('name'));
+            $admin = false;
+
+            if (empty($login)) {
+                $this->addFlash('notice', 'El login no puede estar vacio.');
+
+                return $this->redirectToRoute('app_admin_create_user');
+            }
+
+            if (empty($password)) {
+                $password = User::DEFAULT_PASSWORD;
+            }
+
+            if ($request->get('admin') == 'on') {
+                $admin = true;
+            }
+
+            $manager = $this->getDoctrine()->getManager();
+            $user = new User();
+            $user->setLogin($login);
+            $user->setPassword(md5($password));
+            $user->setName($name);
+            $user->setAdmin($admin);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('notice', 'Usuario creado');
+
+            return $this->redirectToRoute('app_admin');
         }
 
         return $this->render(
