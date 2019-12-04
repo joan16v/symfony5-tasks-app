@@ -1,68 +1,52 @@
-<html>
-    <head>
-        {% include 'head.html.twig' %}
-    </head>
+{% extends 'base.html.twig' %}
 
-    <body>
-        {% include 'header.html.twig' %}
-
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-warning flash-{{ label }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-
-        <main role="main">
-            <section class="jumbotron text-center">
-                <div class="container">
-                    {% for label, messages in app.flashes %}
-                        {% for message in messages %}
-                            <div class="alert alert-warning flash-{{ label }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-
-                    <h1 class="jumbotron-heading">Usuarios</h1>
-
-                    <p>
-                        <a href="" class="btn btn-secondary my-2">Crear Usuario</a>
-                    </p>
-                </div>
-            </section>
-
-            <div class="album py-5 bg-light">
-                <div class="container">
-                    <div class="row">
-                        <div class="table-responsive-xl">
-                            <table class="table" id="table_data">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">LOGIN</th>
-                                        <th scope="col">NOMBRE</th>
-                                        <th scope="col">ACCIONES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in users %}
-                                        <tr>
-                                            <td>{{ row.login }}</td>
-                                            <td>{{ row.name }}</td>
-                                            <td>
-                                                <a href=""><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+{% block body %}
+    <main role="main">
+        <section class="jumbotron text-center">
+            <div class="container">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning flash-{{ label }}">
+                            {{ message }}
                         </div>
+                    {% endfor %}
+                {% endfor %}
+
+                <h1 class="jumbotron-heading">Usuarios</h1>
+
+                <p>
+                    <a href="" class="btn btn-secondary my-2">Crear Usuario</a>
+                </p>
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="table-responsive-xl">
+                        <table class="table" id="table_data">
+                            <thead>
+                                <tr>
+                                    <th scope="col">LOGIN</th>
+                                    <th scope="col">NOMBRE</th>
+                                    <th scope="col">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in users %}
+                                    <tr>
+                                        <td>{{ row.login }}</td>
+                                        <td>{{ row.name }}</td>
+                                        <td>
+                                            <a href=""><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </main>
-
-        {% include 'footer.html.twig' %}
-    </body>
-</html>
+        </div>
+    </main>
+{% endblock %}
