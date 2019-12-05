@@ -45,9 +45,13 @@ class MainController extends AbstractController
             [
                 'request' => $request,
                 'user' => $sessionUser,
-                'year' => $year,
                 'currentYear' => $currentYear,
+                'year' => $year,
                 'week' => $week,
+                'nextYear' => $this->getNextYear($week, $year),
+                'nextWeek' => $this->getNextWeek($week, $year),
+                'previousYear' => $this->getPreviousYear($week, $year),
+                'previousWeek' => $this->getPreviousWeek($week, $year),
                 'tasks' => $tasksManager->findBy(
                     [
                         'user' => $sessionUser,
@@ -308,5 +312,53 @@ class MainController extends AbstractController
         $dtmax->modify('+6 days');
 
         return $dtmin->format('d/m/Y') . ' - ' . $dtmax->format('d/m/Y');
+    }
+
+    /**
+     * @return integer
+     */
+    private function getNextWeek($week, $year)
+    {
+        if ($week > 52) {
+            return 1;
+        }
+
+        return ($week + 1);
+    }
+
+    /**
+     * @return integer
+     */
+    private function getNextYear($week, $year)
+    {
+        if ($week > 52) {
+            return ($year + 1);
+        }
+
+        return $year;
+    }
+
+    /**
+     * @return integer
+     */
+    private function getPreviousWeek($week, $year)
+    {
+        if ($week < 2) {
+            $week = 53;
+        }
+
+        return ($week - 1);
+    }
+
+    /**
+     * @return integer
+     */
+    private function getPreviousYear($week, $year)
+    {
+        if ($week < 2) {
+            $year = $year - 1;
+        }
+
+        return $year;
     }
 }

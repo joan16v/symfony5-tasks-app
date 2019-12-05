@@ -31,10 +31,10 @@
                         </select>
                     </div>
                     <div class="col-1 col-xs-3">
-                        <input type="button" id="" value="<" class="btn btn-primary" />
+                        <input type="button" id="" value="<" class="btn btn-primary" onclick="window.location='{{ path("app_index", {year: previousYear, week: previousWeek}) }}'" title="Semana Anterior" />
                     </div>
                     <div class="col-1 col-xs-3">
-                        <input type="button" id="" value=">" class="btn btn-primary" />
+                        <input type="button" id="" value=">" class="btn btn-primary" onclick="window.location='{{ path("app_index", {year: nextYear, week: nextWeek}) }}'" title="Semana Siguiente" />
                     </div>
                 </div>
                 <p>

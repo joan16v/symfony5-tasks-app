@@ -27,9 +27,9 @@ class AppExtension extends AbstractExtension
     {
         $dto = new \DateTime();
         $dto->setISODate($year, $week);
-        $ret['week_start'] = $dto->format('d/m/Y');
+        $ret['week_start'] = $dto->format('d M');
         $dto->modify('+6 days');
-        $ret['week_end'] = $dto->format('d/m/Y');
+        $ret['week_end'] = $dto->format('d M');
 
         return $ret['week_start'] . ' - ' . $ret['week_end'];
     }
