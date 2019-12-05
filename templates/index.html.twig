@@ -22,13 +22,21 @@
                         {% endfor %}
                     </select>
                 </p>
-                <p>
-                    <select class="form-control" id="weekSelector" onchange="selectWeek(this.value)">
-                        {% for i in range(1, 53) %}
-                            <option value="{{ i }}" {% if week == i %}selected="selected"{% endif %}>{{ i|week_values(year) }}</option>
-                        {% endfor %}
-                    </select>
-                </p>
+                <div class="row">
+                    <div class="col-10 col-xs-6">
+                        <select class="form-control" id="weekSelector" onchange="selectWeek(this.value)">
+                            {% for i in range(1, 53) %}
+                                <option value="{{ i }}" {% if week == i %}selected="selected"{% endif %}>{{ i|week_values(year) }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-1 col-xs-3">
+                        <input type="button" id="" value="<" class="btn btn-primary" />
+                    </div>
+                    <div class="col-1 col-xs-3">
+                        <input type="button" id="" value=">" class="btn btn-primary" />
+                    </div>
+                </div>
                 <p>
                     <a href="javascript:createTarea();" class="btn btn-secondary my-2">Crear Tarea</a>
                 </p>
@@ -71,9 +79,13 @@
                                         <td>{{ task.hours }}</td>
                                         <td>{{ task.status }}</td>
                                         <td>{{ task.percent }}</td>
-                                        <td>
-                                            <a href="javascript:confirmDelete({{ task.id }});"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            <a href="javascript:editTarea({{ task.id }});"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <td style="white-space:nowrap;">
+                                            <span class="pr-2">
+                                                <a href="javascript:confirmDelete({{ task.id }});" title="Borrar"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
+                                            </span>
+                                            <span>
+                                                <a href="javascript:editTarea({{ task.id }});" title="Editar"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></a>
+                                            </span>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -103,12 +115,6 @@
         <input type="hidden" id="tarea_id" value="">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_title">Crear tarea</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <select class="form-control" id="day">
