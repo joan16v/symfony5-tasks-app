@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use App\Entity\User;
 use App\Entity\Tasks;
+use App\Service\Utilities;
 
 /**
  * @Route("/")
@@ -23,16 +24,17 @@ class MainController extends AbstractController
     /**
      * @Route("/", methods={"GET"}, name="app_index")
      * @param Request $request
+     * @param Utilities $utilities
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, Utilities $utilities): Response
     {
         $session = $this->get('session');
         $sessionUser = $session->get('user');
         $currentYear = date('Y');
         $year = !empty($request->get('year')) ? $request->get('year') : $currentYear;
-        $currentWeek = $this->getCurrentWeek();
-        $currentWeekValue = $this->getCurrentWeekValue();
+        $currentWeek = $utilities->getCurrentWeek();
+        $currentWeekValue = $utilities->getCurrentWeekValue();
         $week = !empty($request->get('week')) ? $request->get('week') : $currentWeekValue;
         $tasksManager = $this->getDoctrine()->getManager()->getRepository('App:Tasks');
 
@@ -58,10 +60,10 @@ class MainController extends AbstractController
                 'currentYear' => $currentYear,
                 'year' => $year,
                 'week' => $week,
-                'nextYear' => $this->getNextYear($week, $year),
-                'nextWeek' => $this->getNextWeek($week, $year),
-                'previousYear' => $this->getPreviousYear($week, $year),
-                'previousWeek' => $this->getPreviousWeek($week, $year),
+                'nextYear' => $utilities->getNextYear($week, $year),
+                'nextWeek' => $utilities->getNextWeek($week, $year),
+                'previousYear' => $utilities->getPreviousYear($week, $year),
+                'previousWeek' => $utilities->getPreviousWeek($week, $year),
                 'tasks' => $tasksManager->findBy(
                     [
                         'user' => $sessionUser,
@@ -299,76 +301,5 @@ class MainController extends AbstractController
      */
     public function changePassword(Request $request): Response
     {
-    }
-
-    /**
-     * @return string
-     */
-    private function getCurrentWeekValue()
-    {
-        $date = new \DateTime();
-
-        return $date->format("W");
-    }
-
-    /**
-     * @return string
-     */
-    private function getCurrentWeek()
-    {
-        $dtmin = new \DateTime("last sunday");
-        $dtmin->modify('+1 day');
-        $dtmax = clone($dtmin);
-        $dtmax->modify('+6 days');
-
-        return $dtmin->format('d/m/Y') . ' - ' . $dtmax->format('d/m/Y');
-    }
-
-    /**
-     * @return integer
-     */
-    private function getNextWeek($week, $year)
-    {
-        if ($week > 52) {
-            return 1;
-        }
-
-        return ($week + 1);
-    }
-
-    /**
-     * @return integer
-     */
-    private function getNextYear($week, $year)
-    {
-        if ($week > 52) {
-            return ($year + 1);
-        }
-
-        return $year;
-    }
-
-    /**
-     * @return integer
-     */
-    private function getPreviousWeek($week, $year)
-    {
-        if ($week < 2) {
-            $week = 53;
-        }
-
-        return ($week - 1);
-    }
-
-    /**
-     * @return integer
-     */
-    private function getPreviousYear($week, $year)
-    {
-        if ($week < 2) {
-            $year = $year - 1;
-        }
-
-        return $year;
     }
 }

@@ -31,7 +31,29 @@ class AppExtension extends AbstractExtension
         $dto->modify('+6 days');
         $ret['week_end'] = $dto->format('d M');
 
-        return $ret['week_start'] . ' - ' . $ret['week_end'];
+        return $this->formatMonthsToSpanish($ret['week_start'] . ' - ' . $ret['week_end']);
+    }
+
+    /**
+     * @param string $dateString
+     * @return string
+     */
+    public function formatMonthsToSpanish($dateString)
+    {
+        $dateString = str_replace('Jan', 'Enero', $dateString);
+        $dateString = str_replace('Feb', 'Febrero', $dateString);
+        $dateString = str_replace('Mar', 'Marzo', $dateString);
+        $dateString = str_replace('Apr', 'Abril', $dateString);
+        $dateString = str_replace('May', 'Mayo', $dateString);
+        $dateString = str_replace('Jun', 'Junio', $dateString);
+        $dateString = str_replace('Jul', 'Julio', $dateString);
+        $dateString = str_replace('Aug', 'Agosto', $dateString);
+        $dateString = str_replace('Sep', 'Septiembre', $dateString);
+        $dateString = str_replace('Oct', 'Octubre', $dateString);
+        $dateString = str_replace('Nov', 'Noviembre', $dateString);
+        $dateString = str_replace('Dec', 'Diciembre', $dateString);
+
+        return $dateString;
     }
 
     /**

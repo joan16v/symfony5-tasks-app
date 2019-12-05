@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use App\Entity\User;
 use App\Entity\Tasks;
+use App\Service\Utilities;
 
 /**
  * @Route("/admin")
@@ -23,11 +25,12 @@ class AdminController extends AbstractController
     /**
      * @Route("/", methods={"GET"}, name="app_admin")
      * @param Request $request
+     * @param Utilities $utilities
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, Utilities $utilities): Response
     {
-        if (!$this->securityCheck()) {
+        if (!$utilities->securityCheck($this->get('session'))) {
             return $this->redirectToRoute('app_index');
         }
 
@@ -46,11 +49,12 @@ class AdminController extends AbstractController
     /**
      * @Route("/crear-usuario", methods={"GET", "POST"}, name="app_admin_create_user")
      * @param Request $request
+     * @param Utilities $utilities
      * @return Response
      */
-    public function createUser(Request $request): Response
+    public function createUser(Request $request, Utilities $utilities): Response
     {
-        if (!$this->securityCheck()) {
+        if (!$utilities->securityCheck($this->get('session'))) {
             return $this->redirectToRoute('app_index');
         }
 
@@ -101,11 +105,13 @@ class AdminController extends AbstractController
     /**
      * @Route("/editar-usuario/{id}", methods={"GET", "POST"}, name="app_admin_edit_user")
      * @param Request $request
+     * @param Utilities $utilities
+     * @param integer $id
      * @return Response
      */
-    public function editUser(Request $request, $id): Response
+    public function editUser(Request $request, Utilities $utilities, $id): Response
     {
-        if (!$this->securityCheck()) {
+        if (!$utilities->securityCheck($this->get('session'))) {
             return $this->redirectToRoute('app_index');
         }
 
@@ -154,24 +160,5 @@ class AdminController extends AbstractController
      */
     public function viewUserTasksUser(Request $request, $id): Response
     {
-    }
-
-    /**
-     * @return boolean
-     */
-    private function securityCheck()
-    {
-        $session = $this->get('session');
-        $sessionUser = $session->get('user');
-
-        if (empty($sessionUser)) {
-            return false;
-        }
-
-        if (!$sessionUser->getAdmin()) {
-            return false;
-        }
-
-        return true;
     }
 }
