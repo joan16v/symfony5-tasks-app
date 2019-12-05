@@ -7,15 +7,25 @@
         </div>
 
         <div class="float-right col-2 col-sm-6 text-right">
-            {% if user.admin == true %}
-                <a class="text-white" href="{{ path('app_admin') }}" title="Backoffice">
-                    <i class="fas fa-users-cog"></i>
+            <span class="pr-2">
+                <a class="text-white" href="{{ path('app_change_password') }}" title="Cambiar Password">
+                    <i class="fas fa-key"></i>
                 </a>
+            </span>
+
+            {% if user.admin == true %}
+                <span class="pr-2">
+                    <a class="text-white" href="{{ path('app_admin') }}" title="Backoffice">
+                        <i class="fas fa-users-cog"></i>
+                    </a>
+                </span>
             {% endif %}
 
-            <a class="text-white" href="{{ path('app_logout') }}" title="Desconectar">
-                <i class="fas fa-power-off"></i>
-            </a>
+            <span>
+                <a class="text-white" href="{{ path('app_logout') }}" title="Desconectar">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </span>
         </div>
     </div>
 </header>

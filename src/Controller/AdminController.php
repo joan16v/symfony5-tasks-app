@@ -148,6 +148,15 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/ver-tareas-usuario/{id}", methods={"GET", "POST"}, name="app_admin_view_user_tasks")
+     * @param Request $request
+     * @return Response
+     */
+    public function viewUserTasksUser(Request $request, $id): Response
+    {
+    }
+
+    /**
      * @return boolean
      */
     private function securityCheck()

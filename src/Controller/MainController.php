@@ -279,6 +279,15 @@ class MainController extends AbstractController
     }
 
     /**
+     * @Route("/cambiar-password", methods={"GET"}, name="app_change_password")
+     * @param Request $request
+     * @return Response
+     */
+    public function changePassword(Request $request): Response
+    {
+    }
+
+    /**
      * @return string
      */
     private function getCurrentWeekValue()
