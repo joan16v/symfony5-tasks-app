@@ -300,5 +300,18 @@ class MainController extends AbstractController
      */
     public function changePassword(Request $request): Response
     {
+        $sessionUser = $this->get('session')->get('user');
+
+        if (empty($sessionUser)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render(
+            'changePassword.html.twig',
+            [
+                'request' => $request,
+                'user' => $sessionUser,
+            ]
+        );
     }
 }
