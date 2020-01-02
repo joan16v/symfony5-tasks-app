@@ -294,7 +294,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/cambiar-password", methods={"GET"}, name="app_change_password")
+     * @Route("/cambiar-password", methods={"GET", "POST"}, name="app_change_password")
      * @param Request $request
      * @return Response
      */
@@ -304,6 +304,28 @@ class MainController extends AbstractController
 
         if (empty($sessionUser)) {
             return $this->redirectToRoute('app_login');
+        }
+
+        if ($request->isMethod('POST')) {
+            $password = trim($request->get('password'));
+
+            if (empty($password)) {
+                $this->addFlash('notice', 'El password no puede estar vacio.');
+
+                return $this->redirectToRoute('app_change_password');
+            }
+
+            $manager = $this->getDoctrine()->getManager();
+            $userManager = $manager->getRepository('App:User');
+            $userToEdit = $userManager->findOneById($sessionUser->getId());
+            $userToEdit->setPassword($password);
+
+            $manager->persist($userToEdit);
+            $manager->flush();
+
+            $this->addFlash('notice', 'Se ha cambiado el password.');
+
+            return $this->redirectToRoute('app_index');
         }
 
         return $this->render(
