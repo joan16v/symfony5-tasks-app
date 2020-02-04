@@ -1,0 +1,64 @@
+<table class="table" id="table_data">
+    <thead>
+        <tr>
+            <th scope="col">DIA</th>
+            <th scope="col">(TAREA PADRE EN JIRA): GESTIC</th>
+            <th scope="col">DESCRIPCION DEL GESTIC</th>
+            <th scope="col">DESCRIPCION DE LA TAREA</th>
+            <th scope="col">(TAREA/S HIJA): GESER/GAA/GAB/EFOR</th>
+            <th scope="col">TIPO DE HORA</th>
+            <th scope="col">HORAS IMPUTADAS</th>
+            <th scope="col">ESTADO</th>
+            <th scope="col">% DE EJECUCIÓN DE LA TAREA</th>
+            {% if editAllowed %}
+                <th scope="col"></th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% set total = 0 %}
+        {% for task in tasks %}
+            {% set total = total + task.hours %}
+            <tr>
+                <td>
+                    <span class="d-none">{{ task.day|day_order }}</span>
+                    {{ task.day }}
+                </td>
+                <td>{{ task.gestic }}</td>
+                <td>{{ task.gesticDescription }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.task }}</td>
+                <td>{{ task.hourType }}</td>
+                <td>{{ task.hours }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.percent }}</td>
+                {% if editAllowed %}
+                    <td style="white-space:nowrap;">
+                        <span class="pr-2">
+                            <a href="javascript:confirmDelete({{ task.id }});" title="Borrar"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
+                        </span>
+                        <span>
+                            <a href="javascript:editTarea({{ task.id }});" title="Editar"><i class="fa fa-edit fa-lg" aria-hidden="true"></i></a>
+                        </span>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>TOTAL</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ total }}</td>
+            <td></td>
+            <td></td>
+            {% if editAllowed %}
+                <td></td>
+            {% endif %}
+        </tr>
+    </tfoot>
+</table>

@@ -62,6 +62,7 @@ class MainController extends AbstractController
                 'nextWeek' => $utilities->getNextWeek($week, $year),
                 'previousYear' => $utilities->getPreviousYear($week, $year),
                 'previousWeek' => $utilities->getPreviousWeek($week, $year),
+                'editAllowed' => true,
                 'tasks' => $tasksManager->findBy(
                     [
                         'user' => $sessionUser,
