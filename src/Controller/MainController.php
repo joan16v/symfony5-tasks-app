@@ -33,8 +33,7 @@ class MainController extends AbstractController
         $sessionUser = $session->get('user');
         $currentYear = date('Y');
         $year = !empty($request->get('year')) ? $request->get('year') : $currentYear;
-        $currentWeekValue = $utilities->getCurrentWeekValue();
-        $week = !empty($request->get('week')) ? $request->get('week') : $currentWeekValue;
+        $week = !empty($request->get('week')) ? $request->get('week') : $utilities->getCurrentWeekValue();
         $tasksManager = $this->getDoctrine()->getManager()->getRepository('App:Tasks');
 
         if (empty($sessionUser)) {

@@ -156,9 +156,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/ver-tareas-usuario/{id}", methods={"GET", "POST"}, name="app_admin_view_user_tasks")
      * @param Request $request
+     * @param Utilities $utilities
      * @return Response
      */
-    public function viewUserTasksUser(Request $request, $id): Response
+    public function viewUserTasksUser(Request $request, Utilities $utilities, $id): Response
     {
+        if (!$utilities->securityCheck($this->get('session'))) {
+            return $this->redirectToRoute('app_index');
+        }
+
+
     }
 }

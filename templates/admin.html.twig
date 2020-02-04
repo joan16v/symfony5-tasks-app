@@ -34,18 +34,20 @@
                             </thead>
                             <tbody>
                                 {% for row in users %}
-                                    <tr>
-                                        <td>{{ row.login }}</td>
-                                        <td>{{ row.name }}</td>
-                                        <td>
-                                            <span class="pr-2">
-                                                <a href="{{ path("app_admin_edit_user", {id: row.id}) }}"><i class="fa fa-edit" aria-hidden="true"></i> Editar</a>
-                                            </span>
-                                            <span>
-                                                <a href="{{ path("app_admin_view_user_tasks", {id: row.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i> Ver Tareas</a>
-                                            </span>
-                                        </td>
-                                    </tr>
+                                    {% if row.id != user.id %}
+                                        <tr>
+                                            <td>{{ row.login }}</td>
+                                            <td>{{ row.name }}</td>
+                                            <td>
+                                                <span class="pr-2">
+                                                    <a href="{{ path("app_admin_edit_user", {id: row.id}) }}"><i class="fa fa-edit" aria-hidden="true"></i> Editar</a>
+                                                </span>
+                                                <span>
+                                                    <a href="{{ path("app_admin_view_user_tasks", {id: row.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i> Ver Tareas</a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
