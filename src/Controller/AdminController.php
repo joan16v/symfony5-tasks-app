@@ -116,7 +116,7 @@ class AdminController extends AbstractController
         }
 
         $manager = $this->getDoctrine()->getManager();
-        $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
+        $userManager = $manager->getRepository('App:User');
         $userToEdit = $userManager->findOneById($id);
 
         if ($request->isMethod('POST')) {
@@ -165,6 +165,37 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
+        $session = $this->get('session');
+        $sessionUser = $session->get('user');
+        $manager = $this->getDoctrine()->getManager();
+        $userManager = $manager->getRepository('App:User');
+        $tasksManager = $manager->getRepository('App:Tasks');
+        $userToView = $userManager->findOneById($id);
+        $currentYear = date('Y');
+        $year = !empty($request->get('year')) ? $request->get('year') : $currentYear;
+        $week = !empty($request->get('week')) ? $request->get('week') : $utilities->getCurrentWeekValue();
 
+        return $this->render(
+            'userTasks.html.twig',
+            [
+                'request' => $request,
+                'user' => $sessionUser,
+                'userToView' => $userToView,
+                'year' => $year,
+                'currentYear' => $currentYear,
+                'week' => $week,
+                'previousYear' => $utilities->getPreviousYear($week, $year),
+                'previousWeek' => $utilities->getPreviousWeek($week, $year),
+                'nextYear' => $utilities->getNextYear($week, $year),
+                'nextWeek' => $utilities->getNextWeek($week, $year),
+                'tasks' => $tasksManager->findBy(
+                    [
+                        'user' => $userToView,
+                        'week' => $week,
+                        'year' => $year,
+                    ]
+                ),
+            ]
+        );
     }
 }

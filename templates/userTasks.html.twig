@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main role="main">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Tareas de {{ userToView.name }}</h1>
+
+                <input type="hidden" id="year" value="{{ year }}" />
+                <p>
+                    <select class="form-control" id="yearSelector" onchange="selectYear(this.value)">
+                        {% for i in range(currentYear - 5, currentYear + 5) %}
+                            <option value="{{ i }}" {% if year == i %}selected="selected"{% endif %}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <div class="row">
+                    <div class="col-10 col-xs-6">
+                        <select class="form-control" id="weekSelector" onchange="selectWeek(this.value)">
+                            {% for i in range(1, 53) %}
+                                <option value="{{ i }}" {% if week == i %}selected="selected"{% endif %}>{{ i|week_values(year) }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-1 col-xs-3">
+                        <input type="button" id="" value="<" class="btn btn-primary" onclick="window.location='{{ path("app_admin_view_user_tasks", {id: userToView.id, year: previousYear, week: previousWeek}) }}'" title="Semana Anterior" />
+                    </div>
+                    <div class="col-1 col-xs-3">
+                        <input type="button" id="" value=">" class="btn btn-primary" onclick="window.location='{{ path("app_admin_view_user_tasks", {id: userToView.id, year: nextYear, week: nextWeek}) }}'" title="Semana Siguiente" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="table-responsive-xl">
+                        <table class="table" id="table_data">
+                            <thead>
+                                <tr>
+                                    <th scope="col">DIA</th>
+                                    <th scope="col">(TAREA PADRE EN JIRA): GESTIC</th>
+                                    <th scope="col">DESCRIPCION DEL GESTIC</th>
+                                    <th scope="col">DESCRIPCION DE LA TAREA</th>
+                                    <th scope="col">(TAREA/S HIJA): GESER/GAA/GAB/EFOR</th>
+                                    <th scope="col">TIPO DE HORA</th>
+                                    <th scope="col">HORAS IMPUTADAS</th>
+                                    <th scope="col">ESTADO</th>
+                                    <th scope="col">% DE EJECUCIÓN DE LA TAREA</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set total = 0 %}
+                                {% for task in tasks %}
+                                    {% set total = total + task.hours %}
+                                    <tr>
+                                        <td>
+                                            <span class="d-none">{{ task.day|day_order }}</span>
+                                            {{ task.day }}
+                                        </td>
+                                        <td>{{ task.gestic }}</td>
+                                        <td>{{ task.gesticDescription }}</td>
+                                        <td>{{ task.description }}</td>
+                                        <td>{{ task.task }}</td>
+                                        <td>{{ task.hourType }}</td>
+                                        <td>{{ task.hours }}</td>
+                                        <td>{{ task.status }}</td>
+                                        <td>{{ task.percent }}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>TOTAL</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ total }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript">
+        function selectYear(year) {
+            window.location = '{{ path("app_admin_view_user_tasks", {id: userToView.id}) }}?year=' + year + '&week=1';
+        }
+        function selectWeek(week) {
+            window.location = '{{ path("app_admin_view_user_tasks", {id: userToView.id}) }}?year=' + $('#yearSelector').val() + '&week=' + week;
+        }
+        $(document).ready(function () {
+            $('#table_data').dataTable(
+                {
+                    "bSort": true,
+                    "bInfo" : false,
+                    "bFilter": false,
+                    "paging": false,
+                    "order": [[ 0, "asc" ]],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                    },
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'csv', 'excel', 'pdf'
+                    ]
+                }
+            );
+        });
+    </script>
+{% endblock %}
