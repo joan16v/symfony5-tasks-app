@@ -34,10 +34,31 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
+        return $this->render(
+            'admin.html.twig',
+            [
+                'request' => $request,
+                'user' => $this->get('session')->get('user'),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/usuarios", methods={"GET"}, name="app_admin_users")
+     * @param Request $request
+     * @param Utilities $utilities
+     * @return Response
+     */
+    public function usersList(Request $request, Utilities $utilities): Response
+    {
+        if (!$utilities->securityCheck($this->get('session'))) {
+            return $this->redirectToRoute('app_index');
+        }
+
         $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
 
         return $this->render(
-            'admin.html.twig',
+            'users.html.twig',
             [
                 'request' => $request,
                 'user' => $this->get('session')->get('user'),
@@ -90,7 +111,7 @@ class AdminController extends AbstractController
 
             $this->addFlash('notice', 'Usuario creado');
 
-            return $this->redirectToRoute('app_admin');
+            return $this->redirectToRoute('app_admin_users');
         }
 
         return $this->render(
@@ -140,7 +161,7 @@ class AdminController extends AbstractController
 
             $this->addFlash('notice', 'Usuario modificado.');
 
-            return $this->redirectToRoute('app_admin');
+            return $this->redirectToRoute('app_admin_users');
         }
 
         return $this->render(
@@ -196,6 +217,27 @@ class AdminController extends AbstractController
                         'year' => $year,
                     ]
                 ),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/estadisticas", methods={"GET"}, name="app_admin_stats")
+     * @param Request $request
+     * @param Utilities $utilities
+     * @return Response
+     */
+    public function stats(Request $request, Utilities $utilities): Response
+    {
+        if (!$utilities->securityCheck($this->get('session'))) {
+            return $this->redirectToRoute('app_index');
+        }
+
+        return $this->render(
+            'stats.html.twig',
+            [
+                'request' => $request,
+                'user' => $this->get('session')->get('user'),
             ]
         );
     }
