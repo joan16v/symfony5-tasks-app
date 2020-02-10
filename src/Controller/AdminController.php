@@ -62,7 +62,7 @@ class AdminController extends AbstractController
             [
                 'request' => $request,
                 'user' => $this->get('session')->get('user'),
-                'users' => $userManager->findAll(),
+                'users' => $userManager->findBy([], ['login' => 'ASC']),
             ]
         );
     }
