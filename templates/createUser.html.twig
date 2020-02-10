@@ -12,7 +12,13 @@
                     {% endfor %}
                 {% endfor %}
 
-                <h1 class="jumbotron-heading">Crear Usuario</h1>
+                <h1 class="jumbotron-heading">
+                    {% if userToEdit is defined %}
+                        Modificar usuario
+                    {% else %}
+                        Crear usuario
+                    {% endif %}
+                </h1>
             </div>
         </section>
 
