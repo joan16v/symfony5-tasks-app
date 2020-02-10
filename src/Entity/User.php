@@ -28,7 +28,7 @@ class User
     private $task;
 
     /**
-     * @ORM\Column(name="login", type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(name="login", type="string", length=100, nullable=false, unique=true)
      */
     protected $login;
 
@@ -38,7 +38,7 @@ class User
     protected $password;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     protected $name;
 
