@@ -92,7 +92,7 @@ class MainController extends AbstractController
 
             if ($user instanceof User) {
                 $session = $this->get('session');
-                $sessionUser = $session->set('user', $user);
+                $session->set('user', $user);
 
                 return $this->redirectToRoute('app_index');
             }
@@ -112,10 +112,9 @@ class MainController extends AbstractController
 
     /**
      * @Route("/logout", methods={"GET", "POST"}, name="app_logout")
-     * @param Request $request
      * @return Response
      */
-    public function logout(Request $request): Response
+    public function logout(): Response
     {
         $session = $this->get('session');
         $session->remove('user');
