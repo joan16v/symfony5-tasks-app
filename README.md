@@ -10,8 +10,6 @@ Useful commands (run at startup):
 
 **docker-compose run website ./composer.phar install**
 
-**docker-compose run website php bin/console cache:clear**
-
 **docker-compose run website php bin/console doctrine:schema:update --force**
 
 **docker-compose run website php bin/console doctrine:query:sql "INSERT INTO tasks_users (login, password, name, admin) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 1);"**
