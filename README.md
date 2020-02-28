@@ -16,6 +16,8 @@ Useful commands (run at startup):
 
 **docker-compose run website php bin/console doctrine:schema:update --force**
 
+**docker-compose run website php bin/console doctrine:query:sql "INSERT INTO tasks_users (id, login, password, name, admin) VALUES (1, 'admin', '74f92c6ce2d870aa327bf5dfee618076', 'admin', 1);"**
+
 http://localhost:8000
 
 <img src="https://i.imgur.com/dsYNeHe.png">
