@@ -10,7 +10,7 @@ docker-compose up
 
 Useful commands (run at startup):
 
-docker-compose run website composer.phar install
+docker-compose run website ./composer.phar install
 
 docker-compose run website php bin/console cache:clear
 
