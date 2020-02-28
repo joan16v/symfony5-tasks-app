@@ -12,7 +12,7 @@ RUN rm -rf /var/www/html/var/cache/prod \
     && rm -rf /var/www/html/var/cache/dev
 RUN chown -R www-data /var/www
 RUN chmod -R 777 /var/www
-USER www-data
+RUN php bin/console cache:clear
+RUN chmod 777 -R var/log
 COPY ./ /var/www/html/
 EXPOSE 80
-ENTRYPOINT php bin/console cache:clear && chmod 777 -R var/log
