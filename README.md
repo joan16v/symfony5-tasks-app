@@ -7,6 +7,7 @@ A PHP/Symfony5 app, to use it with a MySQL database. Bootstrap for UX.
 Use it with Docker.
 
 docker-compose up
+docker-compose run website php bin/console doctrine:schema:update --force
 
 http://localhost:8000
 
