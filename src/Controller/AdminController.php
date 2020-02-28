@@ -80,6 +80,7 @@ class AdminController extends AbstractController
         }
 
         if ($request->isMethod('POST')) {
+            $userManager = $this->getDoctrine()->getManager()->getRepository('App:User');
             $login = trim($request->get('login'));
             $password = trim($request->get('password'));
             $name = trim($request->get('name'));
@@ -87,6 +88,12 @@ class AdminController extends AbstractController
 
             if (empty($login)) {
                 $this->addFlash('notice', 'El login no puede estar vacio.');
+
+                return $this->redirectToRoute('app_admin_create_user');
+            }
+
+            if ($userManager->findOneBy(['login' => $login]) instanceof User) {
+                $this->addFlash('notice', 'El usuario ya existe.');
 
                 return $this->redirectToRoute('app_admin_create_user');
             }
