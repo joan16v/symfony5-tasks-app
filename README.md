@@ -8,7 +8,7 @@ Use it with Docker.
 
 docker-compose up
 
-http://localhost:8000/public
+http://localhost:8000
 
 <img src="https://i.imgur.com/dsYNeHe.png">
 <img src="https://i.imgur.com/89c9TsA.png">
