@@ -213,9 +213,9 @@ class AdminController extends AbstractController
                 'currentYear' => $currentYear,
                 'week' => $week,
                 'previousYear' => $utilities->getPreviousYear($week, $year),
-                'previousWeek' => $utilities->getPreviousWeek($week, $year),
+                'previousWeek' => $utilities->getPreviousWeek($week),
                 'nextYear' => $utilities->getNextYear($week, $year),
-                'nextWeek' => $utilities->getNextWeek($week, $year),
+                'nextWeek' => $utilities->getNextWeek($week),
                 'editAllowed' => false,
                 'tasks' => $tasksManager->findBy(
                     [

@@ -31,10 +31,9 @@ class Utilities
 
     /**
      * @param integer $week
-     * @param integer $year
      * @return integer
      */
-    public function getNextWeek($week, $year)
+    public function getNextWeek($week)
     {
         if ($week > 52) {
             return 1;
@@ -59,10 +58,9 @@ class Utilities
 
     /**
      * @param integer $week
-     * @param integer $year
      * @return integer
      */
-    public function getPreviousWeek($week, $year)
+    public function getPreviousWeek($week)
     {
         if ($week < 2) {
             $week = 53;
