@@ -40,14 +40,8 @@ class MainController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if ($week > 52) {
-            return $this->redirectToRoute(
-                'app_index',
-                [
-                    'week' => 1,
-                    'year' => ($year + 1),
-                ]
-            );
+        if ($week > $utilities->getNumberWeeks($year)) {
+            return $this->redirectToRoute('app_index', ['week' => 1, 'year' => ($year + 1)]);
         }
 
         return $this->render(

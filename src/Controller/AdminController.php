@@ -203,6 +203,13 @@ class AdminController extends AbstractController
         $year = !empty($request->get('year')) ? $request->get('year') : $currentYear;
         $week = !empty($request->get('week')) ? $request->get('week') : $utilities->getCurrentWeekValue();
 
+        if ($week > $utilities->getNumberWeeks($year)) {
+            return $this->redirectToRoute(
+                'app_admin_view_user_tasks',
+                ['id' => $id, 'week' => 1, 'year' => ($year + 1)]
+            );
+        }
+
         return $this->render(
             'userTasks.html.twig',
             [

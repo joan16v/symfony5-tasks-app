@@ -101,4 +101,13 @@ class Utilities
 
         return true;
     }
+
+    /**
+     * @param integer $year
+     * @return integer
+     */
+    public function getNumberWeeks($year)
+    {
+        return idate('W', mktime(0, 0, 0, 12, 28, $year));
+    }
 }
