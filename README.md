@@ -2,7 +2,7 @@
 
 A PHP/Symfony5 app, to use it with a MySQL database. Bootstrap for UX.
 
-Use it with Docker.
+Use it with Docker. Clone it in your computer and then:
 
 **docker-compose up**
 
