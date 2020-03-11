@@ -12,7 +12,7 @@ services:
             - MYSQL_USER=root
             - MYSQL_PASSWORD=root
         ports:
-            - "8082:3306"
+            - "8001:3306"
     website:
         container_name: php72
         build:
@@ -21,5 +21,3 @@ services:
             - ./:/var/www/html
         ports:
             - 8000:80
-        depends_on:
-            - mysql
